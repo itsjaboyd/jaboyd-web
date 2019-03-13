@@ -1,0 +1,54 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Home</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="{% static 'blog/blogStyle.css' %}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<link rel="icon" href="{% static favicon.ico %}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-light">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{% url 'blog:index' %}">Jason's Blog</a>
+                <p class="Time navbar-text"> {{ now }} </p>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="{% url 'blog:index' %}">Home</a></li>
+                <li><a href="{% url 'blog:about-me' %}">About Me</a></li>
+                <li><a href="{% url 'blog:journal' %}">Journal</a></li>
+                <li><a href="{% url 'blog:resume' %}">Resume</a></li>
+				<li><a href="{% url 'blog:contact' %}">Say Hello</a></li>
+            </ul>
+        </div>
+    </nav>
+
+	<div class="container">
+		<h1 class="text-center">Welcome to the Home page.</h1>
+		<br>
+	</div>
+
+	<div>
+		{% if blog_list %}
+			{% for blog in blog_list %}
+				<div class="container" id="HomeBlog">
+						<a href="{% url 'blog:entry' blog.id %}"><h2>{{ blog.blog_title }}</h2></a>
+						<h4>{{ blog.author_name }}, Comments: {{ blog.comment_set.count }}</h4>
+						<p class="Paragraph">{{ blog.content|truncatewords:200 }}</p>
+				</div>
+				<br>
+			{% endfor %}
+		{% else %}
+			<p>No blogs are available.</p>
+		{% endif %}
+	</div>
+
+</body>
+</html>
